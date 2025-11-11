@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Merge Sort — Waste Recycling Data</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1>Merge Sort for Waste Recycling Data</h1>
+      <p class="subtitle">Sort categories like Plastic, Paper, Glass, Metal — efficient, stable, and perfect for merging collected batches.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card intro">
+      <h2>Why Merge Sort?</h2>
+      <p>
+        Merge Sort is a divide-and-conquer stable sorting algorithm with <strong>O(n log n)</strong> time complexity. It's great for sorting recycling records where you may want to merge multiple collection batches (stable order keeps items of the same category grouped predictably).
+      </p>
+    </section>
+
+    <section class="card example">
+      <h2>Sample Recycling Data</h2>
+      <p>Each row shows a category with collected weight (kg) for a given pickup.</p>
+
+      <table class="data-table" aria-label="Sample recycling data">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Category</th>
+            <th>Weight (kg)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>Plastic</td><td>12</td></tr>
+          <tr><td>2</td><td>Paper</td><td>9</td></tr>
+          <tr><td>3</td><td>Glass</td><td>6</td></tr>
+          <tr><td>4</td><td>Metal</td><td>7</td></tr>
+          <tr><td>5</td><td>Plastic</td><td>5</td></tr>
+          <tr><td>6</td><td>Paper</td><td>10</td></tr>
+        </tbody>
+      </table>
+
+      <p class="hint">Goal: sort this dataset by <strong>weight</strong> descending (largest first) while preserving stability between identical categories.</p>
+    </section>
+
+    <section class="card algorithm">
+      <h2>Merge Sort — Steps (high level)</h2>
+      <ol>
+        <li>Split the array in half until each piece has ≤ 1 item.</li>
+        <li>Merge pairs of pieces back together in sorted order.</li>
+        <li>Continue merging until you have a single sorted array.</li>
+      </ol>
+      <pre class="pseudocode">
+MergeSort(A)
+  if length(A) ≤ 1: return A
+  mid ← floor(length(A)/2)
+  left ← MergeSort(A[0..mid-1])
+  right ← MergeSort(A[mid..end])
+  return Merge(left, right)
+
+Merge(left, right)
+  result ← empty
+  while left and right not empty:
+    if left[0].key ≥ right[0].key:
+      append left[0] to result; pop left[0]
+    else:
+      append right[0] to result; pop right[0]
+  append remaining items
+  return result
+      </pre>
+      <p class="note">Above pseudocode sorts by weight descending (note ≥ in comparison). For ascending use &lt; instead.</p>
+    </section>
+
+    <section class="card viz">
+      <h2>Static Illustration of Merge Steps</h2>
+      <p class="muted">This is a static visual to help you picture the algorithm when sorting by weight.</p>
+
+      <!-- Inline SVG showing split & merge (static) -->
+      <svg viewBox="0 0 900 260" class="viz-svg" role="img" aria-label="Merge sort illustration">
+        <!-- initial array -->
+        <g transform="translate(20,20)">
+          <text class="svg-title">Initial (weights)</text>
+          <!-- boxes -->
+          <g transform="translate(0,24)">
+            <rect class="box" x="0" y="0" width="96" height="38" rx="6"></rect>
+            <text class="box-text" x="48" y="24" text-anchor="middle">12 (Plastic)</text>
+
+            <rect class="box" x="106" y="0" width="96" height="38" rx="6"></rect>
+            <text class="box-text" x="154" y="24" text-anchor="middle">9 (Paper)</text>
+
+            <rect class="box" x="212" y="0" width="96" height="38" rx="6"></rect>
+            <text class="box-text" x="260" y="24" text-anchor="middle">6 (Glass)</text>
+
+            <rect class="box" x="318" y="0" width="96" height="38" rx="6"></rect>
+            <text class="box-text" x="366" y="24" text-anchor="middle">7 (Metal)</text>
+
+            <rect class="box" x="424" y="0" width="96" height="38" rx="6"></rect>
+            <text class="box-text" x="472" y="24" text-anchor="middle">5 (Plastic)</text>
+
+            <rect class="box" x="530" y="0" width="96" height="38" rx="6"></rect>
+            <text class="box-text" x="578" y="24" text-anchor="middle">10 (Paper)</text>
+          </g>
+        </g>
+
+        <!-- split -->
+        <g transform="translate(20,100)">
+          <text class="svg-title">Split into halves</text>
+          <g transform="translate(0,24)">
+            <rect class="small-box" x="0" y="0" width="220" height="54" rx="8"></rect>
+            <text class="small-text" x="110" y="32" text-anchor="middle">[12, 9, 6]</text>
+
+            <rect class="small-box" x="260" y="0" width="220" height="54" rx="8"></rect>
+            <text class="small-text" x="370" y="32" text-anchor="middle">[7, 5, 10]</text>
+          </g>
+        </g>
+
+        <!-- merging -->
+        <g transform="translate(20,180)">
+          <text class="svg-title">Merging (descending)</text>
+          <g transform="translate(0,24)">
+            <rect class="merge-box" x="0" y="0" width="700" height="48" rx="8"></rect>
+            <text class="merge-text" x="350" y="32" text-anchor="middle">[12, 10, 9, 7, 6, 5] — final sorted (weight)</text>
+          </g>
+        </g>
+      </svg>
+
+      <p class="caption">Final order groups same categories while sorting by weight. If two items have same weight, merge sort preserves their relative order (stable).</p>
+    </section>
+
+    <section class="card howto">
+      <h2>Deploy to GitHub Pages (quick)</h2>
+      <ol>
+        <li>Create a new repository on GitHub and push these files to the repo root.</li>
+        <li>In repository settings → Pages, set source to `main` (or `gh-pages`) branch and root folder.</li>
+        <li>Your site will be available at `https://<your-username>.github.io/<repo-name>/`</li>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>Made for educational use — Merge Sort for recycling data • Accessible, responsive, CSS-first.</small>
+    </div>
+  </footer>
+</body>
+</html>
